@@ -4,7 +4,6 @@ import shutil
 
 ROOT_PATH = os.path.dirname(__file__)
 
-
 def get_subject_and_urls(file_name):
     inputs = open("{}/{}".format(ROOT_PATH, file_name), "r")
     lines = [line.replace("\n", "") for line in inputs.readlines()]
@@ -17,13 +16,12 @@ def create_problem_list(problem_list_path, urls, url_format):
         shutil.rmtree(problem_list_path, ignore_errors=True)
     os.mkdir(problem_list_path)
 
-    problemlist = open(
-        "{}/{}".format(problem_list_path, "problemlist.md"), "w+")
+    problemlist = open("{}/{}".format(problem_list_path,"problemlist.md"), "w+")
     problemlist.write("# {}\n".format(subject))
     for num, url in enumerate(urls):
         problemlist.writelines(
             "## {num}. [{name}]({url})\n".format(
-                num=num + 1, name=_parse_name_from_url(url, url_format), url=url
+                num=num + 1, name=_parse_name_from_url(url,url_format), url=url
             )
         )
     problemlist.close()
@@ -37,7 +35,7 @@ def create_template(template_path, urls, url_format, file_type):
     for num, url in enumerate(urls):
         p_name = (
             "{}.".format(num + 1)
-            + _parse_name_from_url(url, url_format)
+            + _parse_name_from_url(url,url_format)
             + ".{}".format(file_type)
         )
         p_file = open("{}/{}".format(template_path, p_name), "w+")
@@ -64,8 +62,8 @@ if __name__ == "__main__":
         "--problem_origin_url",
         "-u",
         type=str,
-        default="https://leetcode.com/problems/",
-        help="please input problem's origin url. default origin url is https://leetcode.com/problems/",
+        default="https://school.programmers.co.kr/learn/courses/30/lessons/",
+        help="please input problem's origin url. default origin url is https://school.programmers.co.kr/learn/courses/30/lessons/",
     )
     parser.add_argument(
         "--file_type",
@@ -82,14 +80,14 @@ if __name__ == "__main__":
     cur_path = "{}/{}".format(ROOT_PATH, subject)
 
     create_problem_list(
-        problem_list_path=cur_path,
+        problem_list_path = cur_path,
         urls=urls,
-        url_format=url_format
+        url_format = url_format
     )
 
     create_template(
-        template_path="{}/template".format(cur_path),
-        urls=urls,
-        url_format=url_format,
-        file_type=args.file_type
+        template_path = "{}/template".format(cur_path),
+        urls = urls,
+        url_format = url_format,
+        file_type = args.file_type
     )
